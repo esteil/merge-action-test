@@ -1,0 +1,21 @@
+name: 'Merge Request Labelled'
+on:
+  pull_request:
+    types: [labeled]
+jobs:
+  label-set:
+    name: Label Set
+    runs-on: ubuntu-latest
+    if: ${{ github.event.label.name == 'Start Thing' }}
+    steps:
+    - name: Env
+      run: |
+        sh -c 'env | sort'
+    - name: Github context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: "echo $GITHUB_CONTEXT"
+    - name: Remove Label
+      uses: actions-ecosystem/action-remove-labels@v1
+      with:
+        labels: 'Start Thing'
